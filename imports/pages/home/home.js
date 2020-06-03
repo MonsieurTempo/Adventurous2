@@ -7,12 +7,14 @@ Template.home.onRendered(()=>{
     type = "canvas"
   }
   PIXI.utils.sayHello(type)
-  Session.set('state', 'initialized')
-})
-
-Tracker.autorun(()=>{
-  if(Meteor.user()){
-    Game.init()
-    Session.set('state', 'running')
-  }
+  Game.state = 'Initializing'
+  
+  Tracker.autorun(()=>{
+    console.log('Waiting for user.')
+    if(Meteor.user()){
+      console.log('User found, starting game')
+      Game.init()
+      Game.state = 'running'
+    }
+  })
 })
