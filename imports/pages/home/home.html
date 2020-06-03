@@ -1,0 +1,11 @@
+<template name="home">
+  <div id="Home">
+    {{#if (is (get "state") "initialized")}}
+      You'll need to log in before you can play.
+    {{else}}
+      <div class="position-absolute text-light">
+        FPS: {{get "fps"}}
+      </div>
+    {{/if}}
+  </div>
+</template>
