@@ -1,5 +1,6 @@
 import PIXI from 'pixi.js'
 import './update'
+import test from './sprites/test'
 
 Game = {
   state:function(){return Session.get('state')}(),
@@ -7,5 +8,14 @@ Game = {
     let app = new PIXI.Application({width: 960, height: 660})
     $('#Home').append(app.view)
     window.requestAnimationFrame(GameLoop)
+  },
+  spawn(type, name, options){
+    return this.spawnTypes[type][name]
+  },
+  spawnTypes: {
+    sprite: {
+      test: test
+    },
+    ui: {}
   }
 }
