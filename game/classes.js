@@ -4,6 +4,9 @@ export class Party{
     this.id = data._id
     Tools.extend(this, data)
   }
+  effect(){
+    // provide bonuses based on this.leader.cha()
+  }
 }
 
 export class Character{
@@ -33,5 +36,37 @@ export class Character{
         return s
       }
     }
+  }
+}
+
+export class Class{
+  constructor(id){
+    var data = Classes.findOne(id)
+    this.id = data._id
+    Tools.extend(this, data)
+  }
+}
+
+export class Skill{
+  constructor(id){
+    var data = Skills.findOne(id)
+    this.id = data._id
+    Tools.extend(this, data)
+  }
+}
+
+export class Item{
+  constructor(id){
+    var data = Items.findOne(id)
+    this.id = data._id
+    Tools.extend(this, data)
+  }
+}
+
+export class Status{
+  constructor(id){
+    var data = Statuses.findOne(id)
+    this.id = data._id
+    Tools.extend(this, data)
   }
 }

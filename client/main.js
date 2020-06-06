@@ -1,3 +1,4 @@
+import PIXI from 'pixi.js'
 import './main.html'
 import './imports'
 
@@ -23,7 +24,7 @@ var ready = [
   Meteor.subscribe('classes', {onError(){console.log(arguments[0].message)}}),
   Meteor.subscribe('skills', {onError(){console.log(arguments[0].message)}}),
   Meteor.subscribe('items', {onError(){console.log(arguments[0].message)}}),
-  Meteor.subscribe('status', {onError(){console.log(arguments[0].message)}})
+  Meteor.subscribe('statuses', {onError(){console.log(arguments[0].message)}})
 ]
 
 Tracker.autorun(()=>{

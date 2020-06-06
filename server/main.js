@@ -1,4 +1,4 @@
-import {Meteor} from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor'
 import '/lib/collections'
 
 Meteor.methods({
@@ -103,7 +103,7 @@ Meteor.publish('items', ()=>Items.find({},{
   }
 }))
 
-Meteor.publish('status', ()=>Status.find({},{
+Meteor.publish('statuses', ()=>Statuses.find({},{
   fields:{
     name: 1,
     description: 1,
