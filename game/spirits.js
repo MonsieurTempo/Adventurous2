@@ -3,25 +3,29 @@ import { Random } from 'meteor/random'
 // UI
 import bottom from './behaviours/ui/bottom'
 import mainMenu from './behaviours/ui/mainMenu'
-
-var behaviours = {
-  'ui-bottom': bottom,
-  'ui-mainMenu': mainMenu,
-}
+// components
+import label from './behaviours/ui/label'
+import pane from './behaviours/ui/pane'
 
 export class Spirit extends PIXI.Container{
-  constructor(type, name, options = {}){
+  constructor(layer, type, options = {}){
     super()
+
+    var behaviours = {
+      'ui-bottom': bottom,
+      'ui-mainMenu': mainMenu,
+      'ui-label': label,
+      'ui-pane': pane,
+    }
+
     Tools.extend(this, options)
     do{
       this._id = Random.id()
     }while(Game.spirits.map(a=>a._id).includes(this._id))
-    this.sprite = new PIXI.Sprite(PIXI.Texture.from(options.texture || `${type == 'ui' ? 'ui' : `${type}s`}/${name}.png`))
-    this.layer = type
-    this.addChild(this.sprite)
-    Tools.extend(this, behaviours[`${type}-${name}`])
+    this.layer = layer
+    Tools.extend(this, behaviours[`${layer}-${type}`](options))
     Game.spirits.push(this)
-    this.init(options)
+    this.init()
   }
   remove(){
     Game.spirits.find(a=>a._id == this._id).destroy(true)

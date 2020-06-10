@@ -7,7 +7,18 @@ Game = {
   state: false,
   ui: {},
   spirits: [],
-  mode: false, // In town: explore, in dungeon: adventure, in shop: trade, in combat: combat
+  styles: {
+    menu: new PIXI.TextStyle({
+      name: 'menu',
+      fill: "white",
+      fontFamily: "Verdana",
+      lineJoin: "round",
+      strokeThickness: 1
+    }),
+    get(name, clone = false){
+      return clone ? this[name].clone() : this[name]
+    }
+  },
   init(){
     this.app = new PIXI.Application({width: 960, height: 660})
     this.stage = this.app.stage
@@ -18,13 +29,13 @@ Game = {
     window.requestAnimationFrame(GameLoop)
   },
   layoutUI(mode){
-    for(var spirit of this.spirits.filter(a=>a.layer=='ui')){
+    for(var spirit of this.spirits.filter(a=>a.layer == 'ui')){
       spirit.remove()
     }
     this.ui = {}
     switch(mode){
       case 'mainMenu':
-        this.ui.menu = new Spirit('ui', 'mainMenu', {z: 10})
+        this.ui.menu = new Spirit('ui', 'mainMenu')
         this.stage.addChild(this.ui.menu)
       break;
     }
