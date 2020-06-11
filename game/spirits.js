@@ -4,8 +4,9 @@ import { Random } from 'meteor/random'
 import bottom from './behaviours/ui/bottom'
 import mainMenu from './behaviours/ui/mainMenu'
 // components
-import label from './behaviours/ui/label'
-import pane from './behaviours/ui/pane'
+import label from './behaviours/ui/components/label'
+import pane from './behaviours/ui/components/pane'
+import button from './behaviours/ui/components/button'
 
 export class Spirit extends PIXI.Container{
   constructor(layer, type, options = {}){
@@ -16,8 +17,8 @@ export class Spirit extends PIXI.Container{
       'ui-mainMenu': mainMenu,
       'ui-label': label,
       'ui-pane': pane,
+      'ui-button': button,
     }
-
     Tools.extend(this, options)
     do{
       this._id = Random.id()
