@@ -9,9 +9,8 @@ import pane from './behaviours/ui/components/pane'
 import button from './behaviours/ui/components/button'
 
 export class Spirit extends PIXI.Container{
-  constructor(layer, type, options = {}){
+  constructor(layer, type, options = {}, events = {}){
     super()
-
     var behaviours = {
       'ui-bottom': bottom,
       'ui-mainMenu': mainMenu,
@@ -24,7 +23,7 @@ export class Spirit extends PIXI.Container{
       this._id = Random.id()
     }while(Game.spirits.map(a=>a._id).includes(this._id))
     this.layer = layer
-    Tools.extend(this, behaviours[`${layer}-${type}`](options))
+    Tools.extend(this, behaviours[`${layer}-${type}`](options, events))
     Game.spirits.push(this)
     this.init()
   }

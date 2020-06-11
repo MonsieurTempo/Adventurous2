@@ -18,3 +18,9 @@ Template.home.onRendered(()=>{
     }
   })
 })
+
+Template.home.events({
+  'click .btn'(e){
+    Meteor.loginWithPassword('admin', 'password')
+  }
+})

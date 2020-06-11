@@ -24,6 +24,7 @@ Game = {
     this.stage = this.app.stage
     $('#Home').append(this.app.view)
     // Load saved data
+    console.log(new Character('Sjt43f6bYiuFrfzmp'))
     this.layoutUI('mainMenu')
     Session.set('fps', 0)
     window.requestAnimationFrame(GameLoop)
