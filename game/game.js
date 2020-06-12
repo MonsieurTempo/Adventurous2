@@ -20,7 +20,7 @@ Game = {
     }
   },
   init(){
-    this.app = new PIXI.Application({width: 960, height: 660})
+    this.app = new PIXI.Application({width:960, height:660, transparent:true})
     this.stage = this.app.stage
     $('#Home').append(this.app.view)
     // Load saved data
@@ -35,10 +35,9 @@ Game = {
     }
     this.ui = {}
     switch(mode){
-      case 'mainMenu':
-        this.ui.menu = new Spirit('ui', 'mainMenu')
+      default:
+        this.ui.menu = new Spirit('ui', mode)
         this.stage.addChild(this.ui.menu)
-      break;
     }
   }
 }

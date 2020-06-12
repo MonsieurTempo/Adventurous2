@@ -12,7 +12,7 @@ export default (options, events)=>({
       new Spirit('ui', 'pane', {width:menu.width, height:menu.height}),
       new Spirit('ui', 'label', {x:(menu.width-Tools.textMetrics(title, Game.styles.get('menu')).width)/2, y:10, text:title, style:Game.styles.get('menu')}),
       new Spirit('ui', 'button', {x:(menu.width-200)/2, y:100, width:200, height:50, text:'Play', style:Game.styles.get('menu')}, {pressed(){
-        console.log('go to party select')
+        Game.layoutUI('partySelect')
       }}),
       new Spirit('ui', 'button', {x:(menu.width-200)/2, y:200, width:200, height:50, text:'Options', style:Game.styles.get('menu')}, {pressed(){
         console.log('go to options')

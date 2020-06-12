@@ -1,9 +1,11 @@
 import PIXI from 'pixi.js'
 import { Random } from 'meteor/random'
 // UI
-import bottom from './behaviours/ui/bottom'
 import mainMenu from './behaviours/ui/mainMenu'
+import partySelect from './behaviours/ui/partySelect'
+import partyCreate from './behaviours/ui/partyCreate'
 // components
+import bottom from './behaviours/ui/components/bottom'
 import label from './behaviours/ui/components/label'
 import pane from './behaviours/ui/components/pane'
 import button from './behaviours/ui/components/button'
@@ -14,6 +16,8 @@ export class Spirit extends PIXI.Container{
     var behaviours = {
       'ui-bottom': bottom,
       'ui-mainMenu': mainMenu,
+      'ui-partySelect': partySelect,
+      'ui-partyCreate': partyCreate,
       'ui-label': label,
       'ui-pane': pane,
       'ui-button': button,

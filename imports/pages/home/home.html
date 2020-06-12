@@ -1,11 +1,11 @@
 <template name="home">
   <div id="Home">
-    <div class="btn btn-primary">Login</div>
     {{#if (is (get "state") "initialized")}}
       You'll need to log in before you can play.
     {{else}}
       <div class="position-absolute text-light">
         FPS: {{get "fps"}}
+        <div class="btn btn-primary">Login</div>
       </div>
     {{/if}}
   </div>
