@@ -22,5 +22,17 @@ Template.home.onRendered(()=>{
 Template.home.events({
   'click .btn'(e){
     Meteor.loginWithPassword('admin', 'password')
+  },
+  'click .fs'(){
+    var elem = $('#Home')[0]
+    if(elem.requestFullscreen){
+      elem.requestFullscreen().catch(err=>console.log(err))
+    }else if(elem.mozRequestFullScreen){
+      elem.mozRequestFullScreen()
+    }else if(elem.webkitRequestFullscreen){
+      elem.webkitRequestFullscreen()
+    }else if(elem.msRequestFullscreen){
+      elem.msRequestFullscreen()
+    }
   }
 })

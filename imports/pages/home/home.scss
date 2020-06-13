@@ -1,0 +1,12 @@
+#Home{
+  canvas{
+    height: 100vmin;
+  }
+  .position-absolute{
+    top: 0;
+    left: 0;
+    .text-secondary{
+      user-select: none;
+    }
+  }
+}

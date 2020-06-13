@@ -20,7 +20,7 @@ Game = {
     }
   },
   init(){
-    this.app = new PIXI.Application({width:960, height:660, transparent:true})
+    this.app = new PIXI.Application({width:960, height:660, transparent:true, antialias:true})
     this.stage = this.app.stage
     $('#Home').append(this.app.view)
     // Load saved data
