@@ -1,11 +1,13 @@
 export class Party{
   constructor(id){
     var data = Parties.findOne(id)
+    console.log(data)
     this.id = data._id
-    Tools.extend(this, data)
-  }
-  effect(){
-    // provide bonuses based on this.leader.cha()
+    Tools.extend(this, data, ['name', 'mode'])
+    this.location = new Area(data.location)
+    this.leader = new Character(data.leader)
+    this.front = data.front.map(a=>new Character(a))
+    this.back = data.back.map(a=>new Character(a))
   }
 }
 
@@ -22,21 +24,14 @@ export class Character{
         if(newVal){
           this.stats[stat] = newVal
         }
-        var s = {value: this.stats[stat]}
-        switch(true){
-          case s.value <= 3:
-          s.level = Math.floor(s.value/1+1)
-          case s.value <= 10:
-          s.level = Math.floor(s.value/2+2.5)
-          case s.value <= 16:
-          s.level = Math.floor(s.value/3+4)
-          case s.value <= 20:
-          s.level = Math.floor(s.value/5+6)
+        return {
+          value: this.stats[stat],
+          level: Math.round((15.4*this.stats[stat])/(this.stats[stat]+12))
         }
-        return s
       }
     }
   }
+
 }
 
 export class Class{
@@ -68,5 +63,16 @@ export class Status{
     var data = Statuses.findOne(id)
     this.id = data._id
     Tools.extend(this, data)
+  }
+}
+
+export class Area{
+  constructor(id){
+    var data = Areas.findOne(id)
+    this.id = data._id
+    Tools.extend(this, data, ['name', 'description', 'background'])
+    if(data.subs){
+      this.subs = data.subs.map(a=>new Area(a))
+    }
   }
 }

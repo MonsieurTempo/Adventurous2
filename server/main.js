@@ -30,7 +30,9 @@ Meteor.publish('users', ()=>Meteor.users.find({$or:[{deactivated:{$exists:false}
 Meteor.publish('areas', ()=>Areas.find({},{
   fields:{
     name: 1,
-    description: 1
+    description: 1,
+    subs: 1,
+    mode: 1
   }
 }))
 
@@ -44,7 +46,7 @@ Meteor.publish('parties', ()=>Parties.find({creator:Meteor.userId()},{
   fields:{
     name: 1,
     mode: 1,
-    locataion: 1,
+    location: 1,
     leader: 1,
     front: 1,
     back: 1,

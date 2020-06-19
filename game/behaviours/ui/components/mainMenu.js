@@ -1,4 +1,4 @@
-import { Spirit } from '../../spirits'
+import { Spirit } from '../../../spirits'
 export default (options, events)=>({
   init(){
     var menu = {zIndex:10, height:450, width:600}
@@ -6,13 +6,19 @@ export default (options, events)=>({
     menu.y = (Game.app.screen.height-menu.height)/3
     Tools.extend(this, menu)
 
-    var title = 'Adventurous'
-
     this.addChild(
       new Spirit('ui', 'pane', {width:menu.width, height:menu.height}),
-      new Spirit('ui', 'label', {x:(menu.width-Tools.textMetrics(title, Game.styles.get('menu')).width)/2, y:10, text:title, style:Game.styles.get('menu')}),
+      new Spirit('ui', 'label', {x:menu.width/2, y:10, text:'Adventurous', style:Game.styles.get('menu'), anchor:{x:.5}}),
       new Spirit('ui', 'button', {x:(menu.width-200)/2, y:100, width:200, height:50, text:'Play', style:Game.styles.get('menu')}, {pressed(){
-        Game.layoutUI('partySelect')
+        if(Parties.find().fetch().length){
+          if(Parties.find().fetch().length > 1){
+            Game.layoutUI('partySelect')
+          }else{
+            Game.layoutUI(Game.currentParty(Parties.findOne()._id).mode)
+          }
+        }else{
+          Game.layoutUI('partyCreate')
+        }
       }}),
       new Spirit('ui', 'button', {x:(menu.width-200)/2, y:200, width:200, height:50, text:'Options', style:Game.styles.get('menu')}, {pressed(){
         console.log('go to options')

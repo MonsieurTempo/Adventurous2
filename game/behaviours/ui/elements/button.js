@@ -19,8 +19,9 @@ export default (options, events)=>({
         btn.buttonMode = true
         Tools.extend(btn, options, ['width', 'height'])
         var lbl = new PIXI.Text(options.text, options.style)
-        lbl.x = (options.width-Tools.textMetrics(options.text, options.style).width)/2,
-        lbl.y = (options.height-Tools.textMetrics(options.text, options.style).height)/2
+        lbl.x = options.width/2,
+        lbl.y = options.height/2
+        lbl.anchor.set(.5, .5)
 
         btn.on('pointerover', (e)=>{
             btn.tint = 0xAAAAAA
