@@ -1,13 +1,14 @@
 <template name="home">
-  <div id="Home" class='d-flex justify-content-center align-items-center'>
+  <div id="Home" class='d-flex justify-content-center align-items-start'>
     {{#if (is (get "state") "initialized")}}
       You'll need to log in before you can play.
     {{else}}
       <div class="position-absolute d-flex flex-column align-items-center p-2">
-        <div class="btn btn-primary mb-1">Login</div>
+        <div class="login btn btn-primary mb-1">Login</div>
         <div class="text-secondary">FPS: {{get "fps"}}</div>
+        <div class="text-secondary">Size: {{get "screenSize"}}</div>
         <div class="btn btn-dark px-2 pt-2 pb-1">
-          <i class="fs far fa-expand fa-2x"></i>
+          <i class="fs far fa-{{fullscreenIcon}} fa-2x"></i>
         </div>
       </div>
     {{/if}}

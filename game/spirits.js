@@ -4,9 +4,8 @@ import { Random } from 'meteor/random'
 import mainMenu from './behaviours/ui/components/mainMenu'
 import partySelect from './behaviours/ui/components/partySelect'
 import partyCreate from './behaviours/ui/components/partyCreate'
-import combat from './behaviours/ui/components/combat'
-// elements
 import bottom from './behaviours/ui/components/bottom'
+// elements
 import label from './behaviours/ui/elements/label'
 import pane from './behaviours/ui/elements/pane'
 import button from './behaviours/ui/elements/button'
@@ -26,7 +25,6 @@ export class Spirit extends PIXI.Container{
       'ui-pane': pane,
       'ui-button': button,
       'ui-portrait': portrait,
-      'ui-combat': combat,
       'ui-img': img,
     }
 

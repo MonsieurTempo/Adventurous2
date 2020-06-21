@@ -1,6 +1,10 @@
 #Home{
-  height: 100vh;
+  height: 100%;
   width: 100vw;
+  overflow-y: auto;
+  #GameContainer{
+    width: 80vw;
+  }
   .position-absolute{
     top: 0;
     left: 0;

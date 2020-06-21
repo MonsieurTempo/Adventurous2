@@ -24,8 +24,9 @@ export default (options, events)=>({
     Parties.find().fetch().map((party, i)=>{
       this.addChild(
         new Spirit('ui', 'button', {x:(Math.floor(i%6)*160)+10, y:(Math.floor(i/6)*110)+75, width:150, height:100}, {pressed(){
-          console.log('load party:', Game.currentParty(party._id).name)
-          Game.layoutUI(party.mode)
+          Game.currentParty(party._id)
+          Game.layoutUI(Game.currentParty().mode)
+          console.log('load party:', Game.currentParty())
         }}),
         new Spirit('ui', 'label', {x:(Math.floor(i%6)*160)+85, y:(Math.floor(i/6)*110)+80, text:party.name, style:Game.styles.get('menu'), anchor:{x:.5}}),
       )
