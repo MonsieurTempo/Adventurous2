@@ -24,18 +24,34 @@ Game = {
     },
     get(name, clone = false){
       return clone ? this[name].clone() : this[name]
+    },
+    temp(name, changes){
+      var tempStyle = this[name].clone()
+      Tools.extend(tempStyle, changes)
+
+      return tempStyle
     }
   },
   init(){
     this.app = new PIXI.Application({width:this.targetWidth, height:this.targetHeight, transparent:true, antialias:true})
     this.stage = this.app.stage
+    this.stage.interactive = true
     this.resize()
     $('#Home').append(this.app.view)
-    this.layoutUI('mainMenu')
+    // this.layoutUI('mainMenu')
     Session.set('fps', 0)
     window.requestAnimationFrame(GameLoop)
     this.resize()
+    this.layoutUI('partyCreate')
     window.addEventListener('resize', this.resize)
+  },
+  units(units = 0, to){
+    if(to == 'px'){
+      return {
+        h: units * ($('#UIOverlay').innerWidth()/Game.app.screen.width),
+        v: units * ($('#UIOverlay').innerHeight()/Game.app.screen.height)
+      }
+    }
   },
   layoutUI(mode, info){
     Game.layout = mode
@@ -55,7 +71,7 @@ Game = {
     this.layoutUI('combat', info)
   },
   resize(){
-    Session.set('screenSize', `${$('#Home').innerWidth()} X ${$('#Home').innerHeight()}`)
+    Session.set('screenSize', `${$('html').innerWidth()} X ${$('html').innerHeight()}`)
     var fs = document.fullscreenElement || document.msFullScreenElement
     var shortSide = $('#Home').innerWidth() < $('#Home').innerHeight() ? 'Width' : 'Height'
     var grow = ((($('#Home').innerWidth()*9)/$('#Home').innerHeight())/9)*Game.targetHeight
@@ -66,8 +82,19 @@ Game = {
       Game.app.renderer.resize(Game.targetWidth, Game.targetHeight)
       $('#Home canvas').css({width:'80%', height:'auto', border:'1px solid black'})
     }
-    if(Game.layout){
-      Game.layoutUI(Game.layout)
+    if($('#Home canvas').offset()){
+      $('#UIOverlay').offset({left:$('#Home canvas').offset().left})
+    }
+    $('#UIOverlay').innerWidth(Math.ceil($('#Home canvas').innerWidth()))
+    $('#UIOverlay').innerHeight(Math.ceil($('#Home canvas').innerHeight()))
+
+    for(var spirit of Game.spirits.filter(a=>a.resize)){
+      spirit.resize()
+    }
+
+    if(Game.focus){
+      Game.focus.focus()
+      delete Game.focus
     }
   },
   currentParty(newParty){

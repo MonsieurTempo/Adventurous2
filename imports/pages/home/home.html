@@ -1,9 +1,9 @@
 <template name="home">
-  <div id="Home" class='d-flex justify-content-center align-items-start'>
+  <div id="Home" class='position-relative d-flex justify-content-center align-items-start'>
     {{#if (is (get "state") "initialized")}}
       You'll need to log in before you can play.
     {{else}}
-      <div class="position-absolute d-flex flex-column align-items-center p-2">
+      <div class="loginMenu position-absolute d-flex flex-column align-items-center p-2">
         <div class="login btn btn-primary mb-1">Login</div>
         <div class="text-secondary">FPS: {{get "fps"}}</div>
         <div class="text-secondary">Size: {{get "screenSize"}}</div>
@@ -11,6 +11,7 @@
           <i class="fs far fa-{{fullscreenIcon}} fa-2x"></i>
         </div>
       </div>
+      <div id="UIOverlay" class="position-absolute"></div>
     {{/if}}
   </div>
 </template>

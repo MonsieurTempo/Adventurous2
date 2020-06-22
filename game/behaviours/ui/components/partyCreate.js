@@ -18,6 +18,12 @@ export default (options, events)=>({
           }
         }
       }}),
+      new Spirit('ui', 'label', {x:menu.width/2, y:60, text:'Party Name:', style:Game.styles.get('menu'), anchor:{x:.5}}),
+      new Spirit('ui', 'textbox', {x:menu.width/2, y:100, style:Game.styles.temp('menu', {fill:0x000000}), lineStyle:{width:1}, anchor:{x:.5}}, {input(){
+        console.log(this.value)
+      }}),
+      new Spirit('ui', 'radio', {x:menu.width/2, y:140, group:'gender', text:'Female', style:Game.styles.get('menu'), anchor:{x:.5}}),
+      new Spirit('ui', 'radio', {x:menu.width/2, y:180, group:'gender', text:'Male', style:Game.styles.get('menu'), anchor:{x:.5}}),
     )
     
   },

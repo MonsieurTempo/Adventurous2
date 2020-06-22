@@ -1,25 +1,24 @@
 import PIXI from 'pixi.js'
 export default (options, events)=>({
     init(){
-        // var btn = new PIXI.NineSlicePlane(new PIXI.Texture.from(options.texture || '/ui/9slice/blue.png'))
-        var g = new PIXI.Graphics()
+        var btn = new PIXI.Graphics()
         if(options.fill){
-            g.beginFill(options.fill.color||0x004e69, options.fill.alpha||1)
+            btn.beginFill(options.fill.color||0x004e69, options.fill.alpha||1)
         }else{
-            g.beginFill(0x004e69)
+            btn.beginFill(0x004e69)
         }
         if(options.lineStyle){
-            g.lineStyle(options.lineStyle.width||1, options.lineStyle.color||0x000000, options.lineStyle.alpha||1)
+            btn.lineStyle(options.lineStyle.width||1, options.lineStyle.color||0x000000, options.lineStyle.alpha||1)
         }else{
-            g.lineStyle(1, 0x000000)
+            btn.lineStyle(1, 0x000000)
         }
-        var btn = g.drawRoundedRect(0, 0, options.width||150, options.height||50, options.radius||10)
+        btn.drawRoundedRect(0, 0, options.width||150, options.height||50, options.radius||10)
         
         btn.interactive = true
         btn.buttonMode = true
         Tools.extend(btn, options, ['width', 'height'])
         var lbl = new PIXI.Text(options.text, options.style)
-        lbl.x = options.width/2,
+        lbl.x = options.width/2
         lbl.y = options.height/2
         lbl.anchor.set(.5, .5)
 

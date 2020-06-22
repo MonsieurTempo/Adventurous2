@@ -2,14 +2,18 @@
   height: 100%;
   width: 100vw;
   overflow-y: auto;
-  #GameContainer{
-    width: 80vw;
-  }
-  .position-absolute{
+  .loginMenu{
     top: 0;
     left: 0;
     .text-secondary{
       user-select: none;
+    }
+  }
+  #UIOverlay{
+    background-color: rgba(0,0,0,0);
+    pointer-events: none;
+    *{
+      pointer-events: initial;
     }
   }
 }
