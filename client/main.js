@@ -7,6 +7,7 @@ Session.set('page', 'home')
 Tracker.autorun(()=>{
   if(Session.get('page') != 'home' && Game.state == 'running'){
     Game.state = 'stopped'
+    Session.set('state', 'stopped')
   }
 })
 

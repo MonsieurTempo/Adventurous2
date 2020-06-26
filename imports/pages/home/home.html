@@ -1,17 +1,22 @@
 <template name="home">
   <div id="Home" class='position-relative d-flex justify-content-center align-items-start'>
-    {{#if (is (get "state") "initialized")}}
-      You'll need to log in before you can play.
-    {{else}}
-      <div class="loginMenu position-absolute d-flex flex-column align-items-center p-2">
-        <div class="login btn btn-primary mb-1">Login</div>
-        <div class="text-secondary">FPS: {{get "fps"}}</div>
-        <div class="text-secondary">Size: {{get "screenSize"}}</div>
-        <div class="btn btn-dark px-2 pt-2 pb-1">
-          <i class="fs far fa-{{fullscreenIcon}} fa-2x"></i>
+    <div class="loginMenu position-absolute d-flex flex-column align-items-start p-2">
+      {{#if (is (get "state") "initializing")}}
+        <div class="form-group">
+          <input id="Username" type="text" class="form-control mb-2" placeholder="Username">
+          <input id="Password" type="password" class="form-control mb-2" placeholder="Password">
+          <div class="login btn btn-primary mb-1">Login</div>
         </div>
+      {{/if}}
+      <div class="text-secondary">FPS: {{get "fps"}}</div>
+      <div class="text-secondary">Size: {{get "screenSize"}}</div>
+      <div class="btn btn-dark px-2 pt-2 pb-1">
+        <i class="fs far fa-{{fullscreenIcon}} fa-2x"></i>
       </div>
-      <div id="UIOverlay" class="position-absolute"></div>
+    </div>
+    <div id="UIOverlay" class="position-absolute"></div>
+    {{#if (is (get "state") "initializing")}}
+      You'll need to log in before you can play.
     {{/if}}
   </div>
 </template>

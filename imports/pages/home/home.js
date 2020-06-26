@@ -8,6 +8,7 @@ Template.home.onRendered(()=>{
   }
   PIXI.utils.sayHello(type)
   Game.state = 'initializing'
+  Session.set('state', 'initializing')
 
   Tracker.autorun(()=>{
     console.log('Waiting for user.')
@@ -15,6 +16,7 @@ Template.home.onRendered(()=>{
       console.log('User found, starting game')
       Game.init()
       Game.state = 'running'
+      Session.set('state', 'running')
     }
   })
 })
@@ -27,7 +29,7 @@ Template.home.helpers({
 
 Template.home.events({
   'click .login'(e){
-    Meteor.loginWithPassword('admin', 'password')
+    Meteor.loginWithPassword($('#Username').val(), $('#Password').val())
   },
   'click .fs'(){
     var elem = $('#Home')[0]
