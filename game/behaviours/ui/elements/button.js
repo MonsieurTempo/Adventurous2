@@ -17,6 +17,7 @@ export default (options, events)=>({
         btn.interactive = true
         btn.buttonMode = true
         Tools.extend(btn, options, ['width', 'height'])
+
         var lbl = new PIXI.Text(options.text, options.style)
         lbl.x = options.width/2
         lbl.y = options.height/2

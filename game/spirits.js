@@ -37,13 +37,26 @@ export class Spirit extends PIXI.Container{
       this._id = Random.id()
     }while(Game.spirits.map(a=>a._id).includes(this._id))
     this.layer = layer
-    Tools.extend(this, behaviours[`${layer}-${type}`](options, events))
+    if(behaviours[`${layer}-${type}`]){
+      Tools.extend(this, behaviours[`${layer}-${type}`](options, events))
+    }else{
+      console.log(`Missing behavior: ${layer}-${type}`)
+    }
     Game.spirits.push(this)
     this.init()
+    if(this.anchor){
+      this.x -= this.width*(this.anchor.x||0)
+      this.y -= this.height*(this.anchor.y||0)
+    }
   }
   remove(){
     if(this.kill){
       this.kill()
+    }
+    for(var child of this.children){
+      if(child.remove){
+        child.remove()
+      }
     }
     this.destroy(true)
     Game.spirits = Game.spirits.filter(a=>a._id != this._id)

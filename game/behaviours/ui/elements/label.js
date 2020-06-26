@@ -1,13 +1,11 @@
 import PIXI from 'pixi.js'
 export default (options, events)=>({
   init(){
-    var label = new PIXI.Text(options.text, options.style)
+    this.addChild(new PIXI.Text(options.text, options.style))
 
-    if(options.anchor){
-      label.anchor.set(options.anchor.x||0, options.anchor.y||0)
+    if(Object.entries(events).length){
+      this.interactive = true
     }
-    
-    this.addChild(label)
 
     if(events.enter){
       this.on('pointerover', events.enter)

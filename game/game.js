@@ -1,6 +1,5 @@
 import PIXI from 'pixi.js'
 import './update'
-import { Area, Party, Character, Class, Skill, Item, Status } from './classes'
 import { Spirit } from './spirits'
 
 Game = {
@@ -9,6 +8,7 @@ Game = {
   targetWidth: 1920,
   targetHeight: 1080,
   spirits: [],
+  logs: [],
   styles: {
     menu: new PIXI.TextStyle({
       name: 'menu',
@@ -16,12 +16,18 @@ Game = {
       fontFamily: "Verdana",
       strokeThickness: 1
     }),
-    icon: {
+    icon: new PIXI.TextStyle({
       name: 'icon',
       fill: 0xFF0000,
       fontFamily: 'Font Awesome 5 Duotone',
       fontWeight: 900
-    },
+    }),
+    log: new PIXI.TextStyle({
+      name: 'log',
+      fill: 'white',
+      fontSize: 20,
+      fontFamily: 'verdana'
+    }),
     get(name, clone = false){
       return clone ? this[name].clone() : this[name]
     },
@@ -38,11 +44,11 @@ Game = {
     this.stage.interactive = true
     this.resize()
     $('#Home').append(this.app.view)
-    // this.layoutUI('mainMenu')
     Session.set('fps', 0)
     window.requestAnimationFrame(GameLoop)
     this.resize()
-    this.layoutUI('partyCreate')
+    // this.layoutUI('mainMenu')
+    this.layoutUI('combat')
     window.addEventListener('resize', this.resize)
   },
   units(units = 0, to){
@@ -60,8 +66,9 @@ Game = {
     }
     switch(mode){
       case 'combat':
-        console.log(info)
-        this.stage.addChild(new Spirit('ui', 'bottom'))
+        // console.log(info)
+        Game.background = new Spirit('ui', 'img', {src:'areas/inn.jpg', width:Game.app.screen.width, height:'auto'})
+        this.stage.addChild(Game.background, new Spirit('ui', 'bottom'))
       break
       default:
         this.stage.addChild(new Spirit('ui', mode))
@@ -96,11 +103,13 @@ Game = {
       delete Game.focus
     }
   },
-  currentParty(newParty){
+  currentParty(newParty, callback){
     if(newParty){
       Meteor.call('setParty', newParty, (err, res)=>{
         if(err){
           console.log(err)
+        }else{
+          callback(new Party(Meteor.user().party))
         }
       })
     }else{

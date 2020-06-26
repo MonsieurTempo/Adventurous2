@@ -24,21 +24,12 @@ export default (options, events)=>({
       innerRadius
     )
 
-    var lbl = {x:0, y:0, width:0, height:0};
+    var lbl = {x:0, y:0, width:0, height:0}
 
     if(options.text){
       lbl = new PIXI.Text(options.text, options.style)
       lbl.x = this.radio.x + trueRadius * 2 + 10
       lbl.y = this.radio.y
-    }
-
-    if(options.anchor){
-      var xOffset = (trueRadius * 2 + 10 + lbl.width) * (options.anchor.x || 0)
-      var yOffset = (trueRadius * 2) * (options.anchor.y || 0)
-      this.radio.x -= xOffset
-      this.radio.y -= yOffset
-      lbl.x -= xOffset
-      lbl.y -= yOffset
     }
     
     this.radio.interactive = true

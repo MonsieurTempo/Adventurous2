@@ -1,7 +1,7 @@
 import { Spirit } from '../../../spirits'
 export default (options, events)=>({
   init(){
-    var menu = {zIndex:10, height:660, width:960}
+    var menu = {zIndex:10, x:Game.app.screen.width/2, y:Game.app.screen.height/3, height:660, width:960, anchor:{x:.5, y:.5}}
     Tools.extend(this, menu)
 
     var title = 'Select a party:'
@@ -24,9 +24,10 @@ export default (options, events)=>({
     Parties.find().fetch().map((party, i)=>{
       this.addChild(
         new Spirit('ui', 'button', {x:(Math.floor(i%6)*160)+10, y:(Math.floor(i/6)*110)+75, width:150, height:100}, {pressed(){
-          Game.currentParty(party._id)
-          Game.layoutUI(Game.currentParty().mode)
-          console.log('load party:', Game.currentParty())
+          Game.currentParty(party._id, (party)=>{
+            Game.layoutUI(party.mode)
+            console.log('load party:', party)
+          })
         }}),
         new Spirit('ui', 'label', {x:(Math.floor(i%6)*160)+85, y:(Math.floor(i/6)*110)+80, text:party.name, style:Game.styles.get('menu'), anchor:{x:.5}}),
       )

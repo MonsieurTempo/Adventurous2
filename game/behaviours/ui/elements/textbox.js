@@ -2,7 +2,7 @@ import PIXI from 'pixi.js'
 export default (options, events)=>({
   init(){
     this.textbox = $(`<input type="${options.type || 'text'}" class="position-absolute">`)
-    this.resize()
+    setTimeout(()=>this.resize())
     this.textbox.focus(()=>{
       Game.focus = this.textbox
     })
@@ -22,8 +22,8 @@ export default (options, events)=>({
     this.textbox.val(options.text || '')
     this.textbox.css({
       'opacity': options.alpha || 1,
-      'left': `${Game.units(options.x, 'px').h}px`,
-      'top':`${Game.units(options.y, 'px').v}px`,
+      'left': `${Game.units(this.getGlobalPosition().x, 'px').h}px`,
+      'top':`${Game.units(this.getGlobalPosition().y, 'px').v}px`,
       'width': `${Game.units(options.width || 200, 'px').h}px`,
       'height': `${Game.units(options.height || Tools.textMetrics('', options.style).height + (Game.units(options.lineStyle ? (options.lineStyle.width||1):1, 'px').h)*2, 'px').v}px`,
       'border-width': `${Game.units(options.lineStyle ? (options.lineStyle.width||1):1, 'px').v}px ${Game.units(options.lineStyle ? (options.lineStyle.width||1):1, 'px').h}px`,
