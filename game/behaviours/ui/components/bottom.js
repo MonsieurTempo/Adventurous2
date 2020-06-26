@@ -13,6 +13,8 @@ export default (options, events)=>({
 
     this.addChild(this.bottom, Game.console)
 
+    var canInteract = false
+
     Game.console.on('touchmove', (e)=>{
       console.log(e)
     })
@@ -26,17 +28,25 @@ export default (options, events)=>({
       console.log('stop listening')
     })
 
-    Game.console.log = (...entries)=>{
-      var parseGuide = {
-        party:id=>{
-          var party = new Party(id)
-          return {text:`{ ${party.name} }`, color:0x34b1eb, info:party}
-        },
-        status:id=>{
-          var status = new Status(id)
-          return {text:`[ ${status.name} ]`, color:0x1b822c, info:status}
-        }
+    var parseGuide = {
+      party:id=>{
+        var party = new Party(id)
+        return {text:`{ ${party.name} }`, color:0x34b1eb, callbacks:{
+          enter(){
+            console.log('open pop-up', party.name)
+          },
+          leave(){
+            console.log('close pop-up', party.name)
+          }
+        }}
+      },
+      status:id=>{
+        var status = new Status(id)
+        return {text:`[ ${status.name} ]`, color:0x1b822c, info:status}
       }
+    }
+
+    Game.console.log = (...entries)=>{
       var log = []
       entries.map(entry=>{
         var formattedEntry = []
@@ -84,14 +94,7 @@ export default (options, events)=>({
             var x = 0
             line.map(word=>{
               var style = Game.styles.temp('log', {fill: word.color})
-              Game.console.addChild(new Spirit('ui', 'label', {x:x, y:y, text:word.text, style:style}, word.info ? {
-                enter(){
-                  console.log('open pop-up', word.info.name)
-                },
-                leave(){
-                  console.log('close pop-up', word.info.name)
-                }
-              } : {}))
+              Game.console.addChild(new Spirit('ui', 'label', {x:x, y:y, text:word.text, style:style}, word.callbacks || {}))
               x += Tools.textMetrics(word.text, style).width
             })
             y += Tools.textMetrics('', Game.styles.get('log')).height
