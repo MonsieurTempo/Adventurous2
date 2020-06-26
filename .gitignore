@@ -1,1 +1,6 @@
-node_modules/
+node_modules
+public/achievements
+public/areas
+public/characters
+public/items
+public/monsters
