@@ -1,9 +1,15 @@
 import { Meteor } from 'meteor/meteor'
+import fs from 'fs'
 import '/lib/collections'
+
+const path = require('path').resolve('.').split('.meteor')[0]
 
 Meteor.methods({
   signUp(userInfo){
     return Accounts.createUser(userInfo)
+  },
+  loadAssets(){
+    return fs.readdirSync(path+'public', 'utf-8')
   },
   setParty(partyID){
     if(Parties.findOne(partyID)){

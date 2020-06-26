@@ -9,6 +9,7 @@ Game = {
   targetHeight: 1080,
   spirits: [],
   logs: [],
+  loader: PIXI.Loader.shared,
   styles: {
     menu: new PIXI.TextStyle({
       name: 'menu',
@@ -39,6 +40,13 @@ Game = {
     }
   },
   init(){
+    Meteor.call('loadAssets', (err, res)=>{
+      if(err){
+        console.log(err)
+      }else{
+        console.log(res)
+      }
+    })
     this.app = new PIXI.Application({width:this.targetWidth, height:this.targetHeight, transparent:true, antialias:true})
     this.stage = this.app.stage
     this.stage.interactive = true
