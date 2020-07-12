@@ -28,6 +28,11 @@ Template.home.helpers({
 })
 
 Template.home.events({
+  'keyup .loginMenu input'(e){
+    if(e.key == 'Enter'){
+      Meteor.loginWithPassword($('#Username').val(), $('#Password').val())
+    }
+  },
   'click .login'(e){
     Meteor.loginWithPassword($('#Username').val(), $('#Password').val())
   },

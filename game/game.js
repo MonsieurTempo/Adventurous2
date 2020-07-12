@@ -40,13 +40,7 @@ Game = {
     }
   },
   init(){
-    Meteor.call('loadAssets', (err, res)=>{
-      if(err){
-        console.log(err)
-      }else{
-        console.log(res)
-      }
-    })
+    loadAssets()
     this.app = new PIXI.Application({width:this.targetWidth, height:this.targetHeight, transparent:true, antialias:true})
     this.stage = this.app.stage
     this.stage.interactive = true
@@ -124,6 +118,10 @@ Game = {
       return Meteor.user().party ? new Party(Meteor.user().party) : false
     }
   }
+}
+
+function loadAssets(){
+  
 }
 
 // Belongs in credits: MM

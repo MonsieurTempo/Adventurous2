@@ -3,6 +3,7 @@ import { Spirit } from '../../../spirits'
 export default (options, events)=>({
   init(){
     this.bottom = new PIXI.Sprite.from('ui/bottom.png')
+    this.addChild(new PIXI.Sprite(this.test))
     this.bottom.texture.baseTexture.on('loaded', ()=>{
       this.resize()
     })
@@ -13,7 +14,7 @@ export default (options, events)=>({
 
     this.addChild(this.bottom, Game.console)
 
-    var canInteract = false
+    this.characters = []
 
     Game.console.on('touchmove', (e)=>{
       console.log(e)
@@ -31,14 +32,20 @@ export default (options, events)=>({
     var parseGuide = {
       party:id=>{
         var party = new Party(id)
-        return {text:`{ ${party.name} }`, color:0x34b1eb, callbacks:{
-          enter(){
-            console.log('open pop-up', party.name)
-          },
-          leave(){
-            console.log('close pop-up', party.name)
+        return {text:`{ ${party.name} }`, color:0x34b1eb, callbacks:function(){
+          var open = false
+          var infoPane
+          return {
+            pressed(){
+              if(open = !open){
+                infoPane = new Spirit('ui', 'pane', {x:this.width/2, y:0, width:200, height:300, anchor:{x:.5,y:1}})
+                this.addChild(infoPane)
+              }else{
+                infoPane.remove()
+              }
+            }
           }
-        }}
+        }()}
       },
       status:id=>{
         var status = new Status(id)
@@ -114,6 +121,18 @@ export default (options, events)=>({
   step(){
     if(Game.console.children.length < Game.logs.flat(3).length){
       Game.console.writeLogs()
+    }
+    if(Game.currentParty() && this.characters.length < Game.currentParty().front.length + Game.currentParty().back.length){
+      while(this.characters.length){
+        this.characters[0].remove()
+      }
+      for(var line of [{name:'front', y:20}, {name:'back', y:60}]){
+        for(var character of Game.currentParty()[line.name]){
+          var portrait = new Spirit('ui', 'portrait', {x:300, y:line.y, character:character, ui:true})
+          this.characters.push(portrait)
+          this.addChild(portrait)
+        }
+      }
     }
   },
   resize(){

@@ -18,6 +18,13 @@ export default (options, events)=>({
     }
   },
   step(){
-    
+    if(this.text){
+      this.children[0].text = this.text
+      delete this.text
+    }
+    if(this.style){
+      this.children[0].style = this.style
+      delete this.style
+    }
   }
 })

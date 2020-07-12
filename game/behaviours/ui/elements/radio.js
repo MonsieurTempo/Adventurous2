@@ -60,7 +60,6 @@ export default (options, events)=>({
       }
       this.radio.filters = []
       this.selected = true
-      // deselect others in group
       if(events.pressed){
           events.pressed(e)
       }
