@@ -110,6 +110,8 @@ export default (options, events)=>({
         })
       })
     }
+    // Re-designating the clear method from PIXI to erase
+    Game.console.erase = Game.console.clear
 
     Game.console.clear = ()=>{
       Game.logs = []
@@ -122,17 +124,18 @@ export default (options, events)=>({
     if(Game.console.children.length < Game.logs.flat(3).length){
       Game.console.writeLogs()
     }
-    if(Game.currentParty() && this.characters.length < Game.currentParty().front.length + Game.currentParty().back.length){
+    if(Game.currentParty() && this.characters.length != Game.currentParty().front.length + Game.currentParty().back.length){
       while(this.characters.length){
         this.characters[0].remove()
       }
-      for(var line of [{name:'front', y:20}, {name:'back', y:60}]){
+      for(var line of [{name:'front', y:10}, {name:'back', y:100}]){
         for(var character of Game.currentParty()[line.name]){
-          var portrait = new Spirit('ui', 'portrait', {x:300, y:line.y, character:character, ui:true})
+          var portrait = new Spirit('ui', 'portrait', {x:300, y:line.y, scale:{x:.6, y:.6}, character:character, ui:true})
           this.characters.push(portrait)
-          this.addChild(portrait)
+          this.bottom.addChild(portrait)
         }
       }
+      console.log(this.characters)
     }
   },
   resize(){
@@ -143,6 +146,7 @@ export default (options, events)=>({
     if(Game.console.y > Game.app.screen.height - this.bottomHeight()){
       Game.console.y = Game.app.screen.height - this.bottomHeight()
     }
+    Game.console.erase()
     Game.console.beginFill(0x101010)
     Game.console.lineStyle(5, 0x000000, 1, 0)
     Game.console.drawRect(0, (Game.app.screen.height-Game.console.y)-this.bottomHeight(), this.bottomHeight(), this.bottomHeight())
@@ -156,3 +160,4 @@ export default (options, events)=>({
     return (Game.app.screen.width * this.bottom.texture.orig.height)/this.bottom.texture.orig.width
   }
 })
+

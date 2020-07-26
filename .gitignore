@@ -2,5 +2,6 @@ node_modules
 public/achievements
 public/areas
 public/characters
+public/charParts
 public/items
 public/monsters

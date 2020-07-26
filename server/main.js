@@ -8,8 +8,28 @@ Meteor.methods({
   signUp(userInfo){
     return Accounts.createUser(userInfo)
   },
-  loadAssets(){
-    return fs.readdirSync(path+'public', 'utf-8')
+  readAssets(){
+    var dirs = {files:[]}
+    function readDir(dir){
+      var target = dirs
+      for(var i=1;i<dir.split('/').length;i++){
+        if(target[dir.split('/')[i]]){
+          target = target[dir.split('/')[i]]
+        }
+      }
+      for(var item of fs.readdirSync(path+dir)){
+        if(fs.lstatSync(`${path}${dir}/${item}`).isDirectory()){
+          target[item] = {files:[]}
+          readDir(`${dir}/${item}`)
+        }else{
+          if(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(item) && dir == 'public/charParts'){
+            target.files.push(item)
+          }
+        }
+      }
+    }
+    readDir('public')
+    return dirs
   },
   setParty(partyID){
     if(Parties.findOne(partyID)){
@@ -135,6 +155,7 @@ Meteor.publish('classes', ()=>Classes.find({},{
   fields:{
     name: 1,
     description: 1,
+    layers: 1,
     archetype: 1,
     proficiencies: 1,
     skills: 1
@@ -149,6 +170,16 @@ Meteor.publish('skills', ()=>Skills.find({},{
     target: 1,
     phase: 1,
     effect: 1
+  }
+}))
+
+Meteor.publish('monsters', ()=>Monsters.find({},{
+  fields:{
+    name:1,
+    description: 1,
+    texture: 1,
+    skills: 1,
+    rewards: 1
   }
 }))
 

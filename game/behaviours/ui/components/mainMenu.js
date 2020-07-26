@@ -20,7 +20,7 @@ export default (options, events)=>({
         }
       }}),
       new Spirit('ui', 'button', {x:(menu.width-200)/2, y:200, width:200, height:50, text:'Options', style:Game.styles.get('menu')}, {pressed(){
-        console.log('go to options')
+        Game.layoutUI('options')
       }}),
       new Spirit('ui', 'button', {x:(menu.width-200)/2, y:300, width:200, height:50, text:'Credits', style:Game.styles.get('menu')}, {pressed(){
         console.log('go to credits')

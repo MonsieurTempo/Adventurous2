@@ -10,6 +10,7 @@ Game = {
   spirits: [],
   logs: [],
   loader: PIXI.Loader.shared,
+  textures: {},
   styles: {
     menu: new PIXI.TextStyle({
       name: 'menu',
@@ -40,7 +41,6 @@ Game = {
     }
   },
   init(){
-    loadAssets()
     this.app = new PIXI.Application({width:this.targetWidth, height:this.targetHeight, transparent:true, antialias:true})
     this.stage = this.app.stage
     this.stage.interactive = true
@@ -49,8 +49,8 @@ Game = {
     Session.set('fps', 0)
     window.requestAnimationFrame(GameLoop)
     this.resize()
-    // this.layoutUI('mainMenu')
-    this.layoutUI('combat')
+    loadAssets()
+    // this.layoutUI('combat')
     window.addEventListener('resize', this.resize)
   },
   units(units = 0, to){
@@ -73,7 +73,7 @@ Game = {
         this.stage.addChild(Game.background, new Spirit('ui', 'bottom'))
       break
       default:
-        this.stage.addChild(new Spirit('ui', mode))
+        this.stage.addChild(new Spirit('ui', mode, info))
     }
   },
   initCombat(info){
@@ -110,7 +110,7 @@ Game = {
       Meteor.call('setParty', newParty, (err, res)=>{
         if(err){
           console.log(err)
-        }else{
+        }else if(callback){
           callback(new Party(Meteor.user().party))
         }
       })
@@ -121,7 +121,39 @@ Game = {
 }
 
 function loadAssets(){
-  
+  Game.layoutUI('loading', {progress:0, total:1})
+  Meteor.call('readAssets', (err, res)=>{
+    if(err){
+      console.log('LOAD ASSETS ERROR:', err)
+    }else{
+      var total = 0
+      var loaded = 0
+      var target = ''
+      function readAssets(asset, depth){
+        for(var file of asset.files){
+          Game.loader.add(`${target.split('/')[1]}-${file}`.replace(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i, ''), `${target}/${file}`)
+          total++
+        }
+        delete asset.files
+        for(var [a, b] of Object.entries(asset)){
+          target = target.split('/')
+          target[depth+1] = a
+          target = target.join('/')
+          readAssets(b, depth+1)
+        }
+      }
+      readAssets(res, 0)
+      Game.loader.onProgress.add((loader, resource)=>{
+        Game.textures[resource.name] = resource.texture
+        loaded++
+        Game.layoutUI('loading', {verbage:'Loading Texture:', item:resource.name, progress:loaded, total:total})
+        if(loaded == total){
+          Game.layoutUI('mainMenu')
+        }
+      })
+      Game.loader.load()
+    }
+  })
 }
 
 // Belongs in credits: MM
